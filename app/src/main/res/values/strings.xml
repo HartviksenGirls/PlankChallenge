@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">PlankChallenge</string>
     <string name="plank_time">Plank time!</string>
+    <string name="stop">Stop</string>
+    <string name="start">Start</string>
+    <string name="reset">Reset</string>
 </resources>

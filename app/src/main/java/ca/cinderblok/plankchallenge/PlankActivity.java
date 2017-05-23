@@ -16,6 +16,12 @@ import android.widget.Toast;
 
 public class PlankActivity extends AppCompatActivity {
 
+    private Chronometer myTimer;
+    private boolean beepTimePassed;
+    private long timeElapsed;
+
+    private static int beepTimeMilleseconds = 120000;
+
     private TextView debugText;
 
     @Override
@@ -23,12 +29,68 @@ public class PlankActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plank);
 
+        myTimer = (Chronometer) findViewById(R.id.chronometer);
+        timeElapsed = 0;
+
+        myTimer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                timeElapsed = SystemClock.elapsedRealtime() - chronometer.getBase();
+                int red = Math.round(timeElapsed * 255 / beepTimeMilleseconds )  % 255;
+                int green = 20;
+                int blue = 20;
+                myTimer.setTextColor(Color.argb(255,red,green,blue));
+
+                if (!beepTimePassed && timeElapsed > beepTimeMilleseconds) {
+                    beepTimePassed = true;
+                    ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                    toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
+                }
+            }
+        });
+
         debugText = (TextView) findViewById((R.id.debug_textview));
-        if (debugText != null) {
-            debugText.setText("Hello");
-        }
+        debugText.setText("Hello");
+
+        Button startButton = (Button) findViewById(R.id.start_button);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Start timer
+                myTimer.setBase(SystemClock.elapsedRealtime() - timeElapsed);
+                myTimer.start();
+                //myTimer.setFormat("Time planking - %s");
+
+                debugText.setText("started");
+            }
+        });
+
+        Button stopButton = (Button) findViewById(R.id.stop_button);
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Stop timer
+                myTimer.stop();
+                timeElapsed = SystemClock.elapsedRealtime() - myTimer.getBase();
+
+                debugText.setText(String.valueOf(timeElapsed));
+                beepTimePassed = timeElapsed / beepTimeMilleseconds > 2;
+            }
+        });
+
+        Button resetButton = (Button) findViewById(R.id.reset_button);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Start timer
+                myTimer.stop();
+
+                timeElapsed = 0;
+                beepTimePassed = false;
+                myTimer.setBase(SystemClock.elapsedRealtime());
+                debugText.setText("restarted");
+            }
+        });
 
     }
-
-
 }

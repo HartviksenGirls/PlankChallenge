@@ -15,6 +15,41 @@
         android:text="@string/plank_time"
         android:id="@+id/textView" />
 
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chronometer"
+        android:layout_above="@+id/stop_button"
+        android:layout_toStartOf="@+id/reset_button"
+        android:layout_marginBottom="71dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start"
+        android:id="@+id/start_button"
+        android:layout_alignTop="@+id/stop_button"
+        android:layout_toStartOf="@+id/stop_button" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stop"
+        android:id="@+id/stop_button"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset"
+        android:id="@+id/reset_button"
+        android:layout_alignTop="@+id/stop_button"
+        android:layout_toEndOf="@+id/stop_button" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
