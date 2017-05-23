@@ -92,5 +92,33 @@ public class PlankActivity extends AppCompatActivity {
             }
         });
 
+        Button sendPButton = (Button) findViewById(R.id.plank_complete_button);
+        sendPButton.setActivated(false);
+        sendPButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (beepTimePassed) {
+                    SendPIntent();
+                } else {
+                    Toast.makeText(getApplicationContext(), "You haven't completed your plank yet!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    // Both of the following methods work to send P to WhatsApp
+    protected void SendPViaUrl() {
+        String url = "whatsapp://send?text=P";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+    protected  void SendPIntent() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "P");
+        sendIntent.setType("text/plain");
+        sendIntent.setPackage("com.whatsapp");
+        startActivity(sendIntent);
     }
 }

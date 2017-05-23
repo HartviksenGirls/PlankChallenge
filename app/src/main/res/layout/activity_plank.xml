@@ -50,6 +50,14 @@
         android:layout_alignTop="@+id/stop_button"
         android:layout_toEndOf="@+id/stop_button" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_p"
+        android:id="@+id/plank_complete_button"
+        android:layout_below="@+id/start_button"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
