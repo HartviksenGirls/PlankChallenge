@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ public class PlankActivity extends AppCompatActivity {
     private long timeElapsed;
 
     private static int beepTimeMilleseconds = 120000;
+
+    private PowerManager.WakeLock screenLock;
 
     private TextView debugText;
 
@@ -61,6 +64,10 @@ public class PlankActivity extends AppCompatActivity {
                 myTimer.start();
                 //myTimer.setFormat("Time planking - %s");
 
+                PowerManager pm = (PowerManager) getSystemService(view.getContext().POWER_SERVICE);
+                screenLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "Timer going");
+                screenLock.acquire();
+
                 debugText.setText("started");
             }
         });
@@ -72,6 +79,7 @@ public class PlankActivity extends AppCompatActivity {
                 // Stop timer
                 myTimer.stop();
                 timeElapsed = SystemClock.elapsedRealtime() - myTimer.getBase();
+                screenLock.release();
 
                 debugText.setText(String.valueOf(timeElapsed));
                 beepTimePassed = timeElapsed / beepTimeMilleseconds > 2;
